@@ -55,3 +55,78 @@ a {
     -ms-transform-origin: top right;
     transform-origin: top right;
 }
+#machine{
+    width: 625px;
+    height: 782px;
+    top: 50%;
+    left: 50%;
+    margin-left: -312.5px;
+    margin-top: -391px;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+}
+#machine #wheel__dragons{
+    width: 486px;
+    height: 336px;
+    top: 0px;
+    left: 50%;
+    margin-left: -243px;
+    background: url('../img/Wheel_Dragons.png') no-repeat center;
+    background-size: contain;
+}
+#machine #wheel{
+    width: 625px;
+    height: 625px;
+    top: 50%;
+    left: 50%;
+    margin-left: -312.5px;
+    margin-top: -312.5px;
+    background: url('../img/Wheel.png') no-repeat center;
+    background-size: contain;
+}
+#machine #pointer{
+    width: 144px;
+    height: 173px;
+    top: 50%;
+    left: 50%;
+    margin-left: -72px;
+    margin-top: -86.5px;
+    background: url('../img/pointer.png') no-repeat center;
+    background-size: contain;
+}
+#machine #spins__progress{
+    width: 320px;
+    height: 107px;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -160px;
+    background: url('../img/spins.png') no-repeat center;
+    background-size: contain;
+}
+#spin__btn{
+    width: 431px;
+    height: 270px;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -215.5px;
+    -webkit-transform-origin: bottom center;
+    -ms-transform-origin: bottom center;
+    transform-origin: bottom center;
+}
+#spin__btn #barrel__btn{
+    width: 256px;
+    height: 156px;
+    left: 50%;
+    top: 0px;
+    margin-left: -128px;
+    background: url('../img/btn_norm.png') no-repeat center;
+    background-size: contain;
+}
+#spin__btn #barrel{
+    width: 431px;
+    height: 200px;
+    bottom: 0px;
+    background: url('../img/barrel.png') no-repeat center;
+    background-size: contain;
+}
