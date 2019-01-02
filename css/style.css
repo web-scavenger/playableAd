@@ -5,19 +5,24 @@ body {
     background: #000;
     overflow: hidden;
 }
+
 html {
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
+
 * {
     margin: 0;
     padding: 0;
     position: absolute;
 }
+
 a {
     text-decoration: none;
 }
-.ad__section{
+
+.ad__section {
     width: 100%;
     height: 100%;
     background: #652ad6 url('../img/background.png') no-repeat center;
@@ -25,9 +30,11 @@ a {
     -webkit-background-size: cover;
     font-family: 'Passion One', cursive;
 }
-#logo{
+
+#logo {
     width: 110px;
     height: 116px;
+    z-index: 2;
     background: url('../img/logo.png') no-repeat center;
     background-size: contain;
     -webkit-background-size: contain;
@@ -37,9 +44,11 @@ a {
     -ms-transform-origin: 0 0;
     transform-origin: 0 0;
 }
-#score__bar{
+
+#score__bar {
     width: 274px;
     height: 83px;
+    z-index: 2;
     background: url('../img/bar.png') no-repeat center;
     background-size: contain;
     -webkit-background-size: contain;
@@ -55,7 +64,14 @@ a {
     -ms-transform-origin: top right;
     transform-origin: top right;
 }
-#machine{
+
+#score__bar span {
+    width: 85%;
+    text-align: right;
+    left: 0;
+}
+
+#machine {
     width: 625px;
     height: 782px;
     top: 50%;
@@ -65,8 +81,12 @@ a {
     -webkit-transform-origin: center center;
     -ms-transform-origin: center center;
     transform-origin: center center;
+    -webkit-transition: left .3s cubic-bezier(0.86, 0, 0.07, 1);
+    -o-transition: left .3s cubic-bezier(0.86, 0, 0.07, 1);
+    transition: left .3s cubic-bezier(0.86, 0, 0.07, 1);
 }
-#machine #wheel__dragons{
+
+#machine #wheel__dragons {
     width: 486px;
     height: 336px;
     top: 0px;
@@ -74,8 +94,10 @@ a {
     margin-left: -243px;
     background: url('../img/Wheel_Dragons.png') no-repeat center;
     background-size: contain;
+    position: relative;
 }
-#machine #wheel{
+
+#machine #wheel {
     width: 625px;
     height: 625px;
     top: 50%;
@@ -84,8 +106,13 @@ a {
     margin-top: -312.5px;
     background: url('../img/Wheel.png') no-repeat center;
     background-size: contain;
+    transform: rotate(72deg);
+    -webkit-transition: transform 2.5s cubic-bezier(0.18, 0.89, 0.32, 1.06);
+    -o-transition: transform 2.5s cubic-bezier(0.18, 0.89, 0.32, 1.06);
+    transition: transform 2.5s cubic-bezier(0.18, 0.89, 0.32, 1.06);
 }
-#machine #pointer{
+
+#machine #pointer {
     width: 144px;
     height: 173px;
     top: 50%;
@@ -95,7 +122,8 @@ a {
     background: url('../img/pointer.png') no-repeat center;
     background-size: contain;
 }
-#machine #spins__progress{
+
+#machine #spins__progress {
     width: 320px;
     height: 107px;
     bottom: 0px;
@@ -104,9 +132,47 @@ a {
     background: url('../img/spins.png') no-repeat center;
     background-size: contain;
 }
-#spin__btn{
+
+#machine #spins__progress #glos {
+    left: 20px;
+    top: 12px;
+    -webkit-transition: all .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -o-transition: all .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#machine #spins__progress .spins_15 {
+    background: url('../img/15_spins.png') no-repeat center;
+    background-size: contain;
+    width: 150px;
+    height: 63px;
+}
+
+#machine #spins__progress .spins_10 {
+    background: url('../img/10_spins_.png') no-repeat center;
+    background-size: contain;
+    width: 104px;
+    height: 61px;
+}
+
+#machine #spins__progress .spins_5 {
+    background: url('../img/5_spins.png') no-repeat center;
+    background-size: contain;
+    width: 58px;
+    height: 50px;
+}
+
+#machine #spins__progress .spins_50 {
+    background: url('../img/50_spins.png') no-repeat center;
+    background-size: contain;
+    width: 279px;
+    height: 63px;
+}
+
+#spin__btn {
     width: 431px;
     height: 270px;
+    z-index: 2;
     bottom: 0px;
     left: 50%;
     margin-left: -215.5px;
@@ -114,7 +180,8 @@ a {
     -ms-transform-origin: bottom center;
     transform-origin: bottom center;
 }
-#spin__btn #barrel__btn{
+
+#spin__btn #barrel__btn {
     width: 256px;
     height: 156px;
     left: 50%;
@@ -122,11 +189,273 @@ a {
     margin-left: -128px;
     background: url('../img/btn_norm.png') no-repeat center;
     background-size: contain;
+    cursor: pointer;
 }
-#spin__btn #barrel{
+
+.btn__transition {
+    -webkit-transition: background .4s ease-in;
+    -o-transition: background .4s ease-in;
+    transition: background .4s ease-in;
+}
+
+#spin__btn .hightlight__btn {
+    background: url('../img/btn_highlight.png') no-repeat center !important;
+    background-size: contain;
+    cursor: pointer;
+}
+
+#spin__btn #barrel {
     width: 431px;
     height: 200px;
     bottom: 0px;
     background: url('../img/barrel.png') no-repeat center;
     background-size: contain;
+}
+
+#ch_overlay {
+    width: 100%;
+    height: 100%;
+    background: url('../img/Rectangle\ 3.png') no-repeat center;
+    background-size: cover;
+    opacity: 0;
+}
+
+#ch_pirate__block {
+    width: 623px;
+    height: 954px;
+    top: 62%;
+    margin-top: -477px;
+    left: 155%;
+    margin-left: -311.5px;
+    -webkit-transition: left .8s cubic-bezier(0.86, 0, 0.07, 1);
+    -o-transition: left .8s cubic-bezier(0.86, 0, 0.07, 1);
+    transition: left .8s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+#ch_pirate__block #ch_flag {
+    width: 376px;
+    height: 650px;
+    top: 0px;
+    left: 0px;
+    background: url('../img/Fllag.png') no-repeat center;
+    background-size: contain;
+}
+
+#ch_pirate__block #ch_pirate {
+    width: 460px;
+    height: 767px;
+    right: 0px;
+    bottom: 0px;
+    background: url('../img/pirate.png') no-repeat center;
+    background-size: contain;
+}
+
+.opacity-anime {
+    -webkit-transition: opacity .3s ease-in;
+    -o-transition: opacity .3s ease-in;
+    transition: opacity .3s ease-in;
+}
+
+#winAttack_overlay {
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0;
+}
+
+#attack_rays {
+    width: 766px;
+    height: 765px;
+    left: 50%;
+    top: 50%;
+    margin-left: -383px;
+    margin-top: -382.5px;
+    opacity: 0;
+    background: url('../img/rays.png') no-repeat center;
+    background-size: contain;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+}
+
+#attack_gun {
+    width: 294px;
+    height: 291px;
+    top: 50%;
+    left: 50%;
+    margin-left: -147px;
+    margin-top: -145.5px;
+    opacity: 0;
+    background: url('../img/signAttack.png') no-repeat center;
+    background-size: contain;
+    transition: transform 0.4s linear;
+    -o-transition: transform 0.4s linear;
+    -webkit-transition: transform 0.4s linear;
+}
+
+#attack_txt {
+    width: 431px;
+    height: 147px;
+    top: 25%;
+    left: 50%;
+    margin-left: -215.5px;
+    margin-top: -73.5px;
+    background: url('../img/txtAttack.png') no-repeat center;
+    background-size: contain;
+    transform: scale(0);
+    transition: transform 0.3s linear;
+    -o-transition: transform 0.3s linear;
+    -webkit-transition: transform 0.3s linear;
+}
+
+#cannon {
+    width: 576px;
+    height: 388px;
+    left: 50%;
+    bottom: -100%;
+    margin-left: -288px;
+    background: url('../img/cannon.png') no-repeat center;
+    background-size: contain;
+    transition: bottom 0.5s linear;
+    -o-transition: bottom 0.5s linear;
+    -webkit-transition: bottom 0.5s linear;
+    -webkit-transform-origin: bottom center;
+    -ms-transform-origin: bottom center;
+    transform-origin: bottom center;
+}
+
+#island {
+    width: 742px;
+    height: 732px;
+    top: 45%;
+    left: 170%;
+    margin-left: -371px;
+    margin-top: -366px;
+    transition: left 0.4s linear;
+    -o-transition: left 0.4s linear;
+    -webkit-transition: left 0.4s linear;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+}
+
+#island #island_platform {
+    width: 742px;
+    height: 275px;
+    bottom: 0;
+    left: 50%;
+    margin-left: -371px;
+    background: url('../img/island.png') no-repeat center;
+    background-size: contain;
+}
+
+#island #nature {
+    width: 615px;
+    height: 321px;
+    left: 49.5%;
+    margin-left: -307.5px;
+    bottom: 173px;
+    background: url(../img/nature.png) no-repeat center;
+    background-size: contain;
+}
+
+#island #nature_atc__btn {
+    width: 119px;
+    height: 119px;
+    top: 11%;
+    left: 40%;
+    margin-top: -59.5px;
+    margin-left: -59.5px;
+    background: url(../img/nature_attk.png) no-repeat center;
+    background-size: contain;
+}
+
+#island #ship {
+    width: 160px;
+    height: 226px;
+    top: 0px;
+    left: 63%;
+    margin-left: -80px;
+    background: url('../img/ship.png') no-repeat center;
+    background-size: contain;
+}
+
+#island #ship_atc__btn {
+    width: 109px;
+    height: 110px;
+    top: 17%;
+    left: 77%;
+    margin-top: -55px;
+    margin-left: -54.5px;
+    background: url(../img/ship_attk.png) no-repeat center;
+    background-size: contain;
+}
+
+#island #house {
+    width: 465px;
+    height: 399px;
+    left: 39%;
+    top: 53%;
+    margin-top: -199.5px;
+    margin-left: -232.5px;
+    background: url(../img/house.png) no-repeat center;
+    background-size: contain;
+}
+
+#island #house_atc__btn {
+    width: 117px;
+    height: 117px;
+    top: 22%;
+    left: 18%;
+    margin-top: -58.5px;
+    margin-left: -58.5px;
+    background: url(../img/house_attk.png) no-repeat center;
+    background-size: contain;
+}
+
+#island #pet {
+    width: 191px;
+    height: 212px;
+    top: 68%;
+    right: 12%;
+    margin-top: -106px;
+    margin-left: -95.5px;
+    background: url('../img/pet.png') no-repeat center;
+    background-size: contain;
+}
+
+#island #pet_atc__btn {
+    width: 118px;
+    height: 118px;
+    top: 41%;
+    right: 8%;
+    margin-top: -59px;
+    margin-left: -59px;
+    background: url(../img/pet_attk.png) no-repeat center;
+    background-size: contain;
+}
+#island .btn_border{
+    transition: border .2s linear, box-shadow .2s linear;
+    -o-transition: border .2s linear, box-shadow .2s linear;
+    -webkit-transition: border .2s linear, box-shadow .2s linear;
+}
+#island .active {
+    width: 94px;
+    left: 45%;
+    top: 44.5%;
+    margin-left: -47px;
+    margin-top: -47px;
+    height: 94px;
+    border-radius: 50%;
+    box-shadow: 0 0 25px 2px #2cfdff;
+    border: 6px solid #ffffff;
+}
+
+#cannon #canon_fire {
+    width: 100px;
+    height: 100px;
+    top: 54%;
+    left: 61%;
+    margin-top: -50px;
+    margin-left: -50px;
 }

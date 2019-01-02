@@ -10,18 +10,51 @@
 <body>
     <section class="ad__section">
         <div id="logo"></div>
-        <div id="score__bar">4,500,000</div>
+        <div id="score__bar"><span>4,500,000</span></div>
         <div id="machine">
             <div id="wheel__dragons"></div>
             <div id="wheel"></div>
             <div id="pointer"></div>
-            <div id="spins__progress"></div>
+            <div id="spins__progress">
+                <div id="glos" class="spins_15"></div>
+            </div>
         </div>
         <div id="spin__btn">
-            <div id="barrel__btn"></div>
+            <div id="barrel__btn" class="btn__transition"></div>
             <div id="barrel"></div>
         </div>
+        <div id="ch_overlay"></div>
+        <div id="ch_pirate__block">
+            <div id="ch_flag"></div>
+            <div id="ch_pirate"></div>
+        </div>
+        <div id="winAttack_overlay" class="opacity-anime"></div>
+        <div id="attack_rays" class="opacity-anime">
+            <div id="attack_txt" ></div>
+            <div id="attack_gun" class="opacity-anime"></div>
+        </div>
+
+        <div id="island">
+            <div id="ship"></div>
+            <div id="island_platform"></div>
+            <div id="nature"></div>
+            <div id="house"></div>
+            <div id="pet"></div>
+            <div id="house_atc__btn" class='attack_btn'><div class="btn_border"></div></div>
+            <div id="nature_atc__btn" class='attack_btn'><div class="btn_border"></div></div>
+            <div id="ship_atc__btn" class='attack_btn'><div class="btn_border"></div></div>
+            <div id="pet_atc__btn" class='attack_btn'><div class="btn_border"></div></div>
+        </div>
+        <div id="cannon"><canvas id="canon_fire" width="100" height="100"></canvas></div>
+
+        
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        window.onload = function(){
+            playedApp.startAd()
+        }
+    </script>
 </body>
 </html>
