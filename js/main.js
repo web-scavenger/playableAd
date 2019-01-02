@@ -1,6 +1,6 @@
 var playedApp = {
     opt: {
-        scaleElemArr: ['logo', 'score__bar', 'machine', 'spin__btn', 'ch_pirate__block', 'attack_rays','cannon', 'island',],
+        scaleElemArr: ['logo', 'score__bar', 'machine', 'spin__btn', 'ch_pirate__block', 'attack_rays', 'cannon', 'island',],
         charHintPirate: document.getElementById('ch_pirate__block'),
         charHintOverlay: document.getElementById('ch_overlay'),
         barrelBtn: document.getElementById('barrel__btn'),
@@ -8,14 +8,15 @@ var playedApp = {
         blickIntervalId: null,
         screenScale: null,
         stepNumber: 0,
-        userScore: 4500000
+        userScore: 4500000,
+        attackBtnsInterval: null
     },
     initElements: function () {
         var self = this;
         this.opt.barrelBtn.addEventListener('click', this.spinWheel.bind(this))
         var attk_btn = document.getElementsByClassName('attack_btn');
-        for(var i = 0; i < attk_btn.length; i++){
-            attk_btn[i].addEventListener('click', function(event){
+        for (var i = 0; i < attk_btn.length; i++) {
+            attk_btn[i].addEventListener('click', function (event) {
                 self.attack(this)
             })
         }
@@ -155,13 +156,13 @@ var playedApp = {
             delay: 1900
         },
         {
-            name : 'island',
+            name: 'island',
             value: '50%',
             property: 'left',
             delay: 1800
         }
         ]
-        obj.forEach(function(element){
+        obj.forEach(function (element) {
             setTimeout(function () {
                 document.getElementById(element.name).style[element.property] = element.value;
             }, element.delay)
@@ -242,7 +243,7 @@ var playedApp = {
             update: function () {
                 var el = document.querySelector('#score__bar span');
                 var count = JSON.stringify(obj.charged);
-                var formatCount = numberWithCommas(count) 
+                var formatCount = numberWithCommas(count)
                 el.innerHTML = formatCount;
             }
 
@@ -263,29 +264,29 @@ var playedApp = {
             self.opt.barrelBtn.classList.toggle('hightlight__btn')
         }, 800)
     },
-    canonFire: function(){
+    canonFire: function () {
         var canvas = document.getElementById('canon_fire')
         var ctx = canvas.getContext('2d');
 
         var step = 0, counter = 0;
         var sprite = new Image()
         sprite.src = 'img/sprite_cannon.png';
-        sprite.onload = function(){
+        sprite.onload = function () {
             // draw()
             burn();
             requestAnimationFrame(burn)
         };
 
-        function burn(){
-            if(counter > 3){
+        function burn() {
+            if (counter > 3) {
                 draw()
                 counter = 0
             }
             counter++;
             requestAnimationFrame(burn)
         }
-        function draw(){
-            ctx.clearRect(0,0, canvas.width, canvas.height);
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             step = (step === 900 ? 0 : step + 100);
             // console.log(step);
             ctx.drawImage(sprite, step, 0, 100, 100, 0, 0, 100, 100);
@@ -298,27 +299,128 @@ var playedApp = {
         this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
         this.chPirateShow()
     },
-    animateAttackBtns : function(){
+    animateAttackBtns: function () {
         var counter = 0;
         var btns = document.querySelectorAll('.btn_border')
-        setInterval(function(){
-            for(var i = 0; i< btns.length; i++){
+        this.opt.attackBtnsInterval = setInterval(function () {
+            for (var i = 0; i < btns.length; i++) {
                 btns[i].classList.remove('active')
             }
-            if(counter == btns.length -1 ){
+            if (counter == btns.length - 1) {
                 btns[counter].classList.add('active')
                 counter = 0;
-                
-            } else if(counter < btns.length){
+
+            } else if (counter < btns.length) {
                 btns[counter].classList.add('active')
                 counter++;
             }
         }, 800)
     },
-    attack : function(e){
-        console.log('e', e)
-        console.log(this)
+    attack: function (e) {
+        var self = this;
+        clearInterval(this.opt.attackBtnsInterval)
+        var attk_btn = document.getElementsByClassName('attack_btn');
+
+        for(var i = 0; i < attk_btn.length; i++){
+            if(attk_btn[i] != e ){
+                attk_btn[i].style.opacity = 0
+            }
+        }
+        var obj = e.getAttribute('data-attack');
+
+        anime({
+            targets: '#cannon',
+            scale: [{
+                value: self.opt.screenScale.scale,
+                duration: 0
+            }, {
+                value: 1.04 * self.opt.screenScale.scale,
+                duration: 500,
+                easing: "easeInOutQuad"
+            }, {
+                value: self.opt.screenScale.scale,
+                duration: 500,
+                easing: "easeInOutQuad"
+            }],
+            bottom: [
+                {
+                    value : '-4%',
+                    duration: 500,
+                    easing: "easeInOutQuad"
+                },{
+                    value : '-8%',
+                    duration: 500,
+                    easing: "easeInOutQuad"
+                }
+                ,{
+                    value : '-4%',
+                    duration: 500,
+                    easing: "easeInOutQuad"
+                }
+            ]
+
+        })
+
+        var canvas = document.getElementById('explr_canvas')
+        setTimeout(function(){
+            switch (obj) {
+                case 'house':
+                    canvas.style.left = '39%';
+                    canvas.style.top = '53%';
+                    document.getElementById('house').classList.add('house_damaged')
+                    break;
+                case 'nature':
+                    canvas.style.left = '49.5%';
+                    canvas.style.bottom = '173px';
+                    document.getElementById('nature').classList.add('nature_damagde')
+                    break
+                case 'ship':
+                    canvas.style.left = '63%';
+                    canvas.style.top = '10%';
+                    document.getElementById('ship').classList.add('ship_damaged')
+                    break;
+                case 'pet':
+                    canvas.style.right = '2%';
+                    canvas.style.top = '68%';
+                    document.getElementById('pet').classList.add('pet_damaged')
+                    break;
+            }
+        }, 350)
+
+        var self = this;
         this.setScore(11000000)
+        setTimeout(function () {
+            self.drawExpl()
+        }, )
+    },
+    drawExpl: function () {
+        var canvas = document.getElementById('explr_canvas')
+        var ctx = canvas.getContext('2d');
+        var sprite = new Image()
+        var stepX = 0, stepY = 0, counter = 0;
+        sprite.src = 'img/exp_sprite.png';
+        var animation = null;
+        sprite.onload = function () {
+            burn();
+        };
+
+        function burn() {
+            if (counter > 4) {
+                draw()
+                counter = 0
+            }
+            animation = requestAnimationFrame(burn)
+            counter++;
+        }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (stepX <= 6552) {
+                ctx.drawImage(sprite, stepX, 0, 468, 464, 0, 0, 468, 464);
+                stepX += 468;
+            } else {
+                cancelAnimationFrame(animation)
+            }
+        }
     },
     getPageScale: function (containerSize, width, height) {
         var i = width / containerSize;

@@ -358,6 +358,10 @@ a {
     background: url(../img/nature.png) no-repeat center;
     background-size: contain;
 }
+.nature_damagde{
+    background: url('../img/natureDamaged.png') no-repeat center !important;
+    background-size: contain;
+}
 
 #island #nature_atc__btn {
     width: 119px;
@@ -368,6 +372,7 @@ a {
     margin-left: -59.5px;
     background: url(../img/nature_attk.png) no-repeat center;
     background-size: contain;
+    z-index: 2;
 }
 
 #island #ship {
@@ -377,6 +382,10 @@ a {
     left: 63%;
     margin-left: -80px;
     background: url('../img/ship.png') no-repeat center;
+    background-size: contain;
+}
+.ship_damaged{
+    background: url('../img/shipDamaged.png') no-repeat center !important;
     background-size: contain;
 }
 
@@ -389,6 +398,7 @@ a {
     margin-left: -54.5px;
     background: url(../img/ship_attk.png) no-repeat center;
     background-size: contain;
+    z-index: 2;
 }
 
 #island #house {
@@ -401,6 +411,10 @@ a {
     background: url(../img/house.png) no-repeat center;
     background-size: contain;
 }
+.house_damaged{
+    background: url('../img/house_Damaged.png') no-repeat center !important;
+    background-size: contain;
+}
 
 #island #house_atc__btn {
     width: 117px;
@@ -411,6 +425,7 @@ a {
     margin-left: -58.5px;
     background: url(../img/house_attk.png) no-repeat center;
     background-size: contain;
+    z-index: 2;
 }
 
 #island #pet {
@@ -423,6 +438,10 @@ a {
     background: url('../img/pet.png') no-repeat center;
     background-size: contain;
 }
+.pet_damaged{
+    background: url('../img/petDamaged.png') no-repeat center !important;
+    background-size: contain;
+}
 
 #island #pet_atc__btn {
     width: 118px;
@@ -433,6 +452,7 @@ a {
     margin-left: -59px;
     background: url(../img/pet_attk.png) no-repeat center;
     background-size: contain;
+    z-index: 2;
 }
 #island .btn_border{
     transition: border .2s linear, box-shadow .2s linear;
@@ -458,4 +478,10 @@ a {
     left: 61%;
     margin-top: -50px;
     margin-left: -50px;
+}
+#explr_canvas{
+    width: 468px;
+    height: 464px;
+    margin-left: -234px;
+    margin-top: -232px;
 }
