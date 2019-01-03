@@ -1,6 +1,6 @@
 var playedApp = {
     opt: {
-        scaleElemArr: ['logo', 'score__bar', 'machine', 'spin__btn', 'ch_pirate__block', 'attack_rays', 'cannon', 'island',],
+        scaleElemArr: ['logo', 'score__bar', 'machine', 'spin__btn', 'ch_pirate__block', 'attack_rays', 'cannon', 'island', 'cannon__ball', 'spins_rays'],
         charHintPirate: document.getElementById('ch_pirate__block'),
         charHintOverlay: document.getElementById('ch_overlay'),
         barrelBtn: document.getElementById('barrel__btn'),
@@ -39,13 +39,16 @@ var playedApp = {
                 break;
             case 1:
                 this.setGlos('spins_5');
-                this.rotateWheel(0);
+                this.rotateWheel(-1);
                 break;
             case 2:
                 this.setGlos('spins_empty');
+                this.rotateWheel(902);
                 break;
         }
-        // this.opt.stepNumber++;
+    },
+    wheelShow: function () {
+        document.getElementById('machine').style.left = '50%'
     },
     chPirateShow: function () {
         var self = this;
@@ -100,7 +103,7 @@ var playedApp = {
             self.opt.charHintPirate.style.left = '155%'
         }, 200)
     },
-    winAttackMessage: function () {
+    winAttackMessageShow: function () {
         var obj = [{
             name: 'winAttack_overlay',
             value: '0.57',
@@ -170,6 +173,65 @@ var playedApp = {
         this.canonFire();
         this.animateAttackBtns();
     },
+    spinMessageWinShow: function () {
+        var obj = [{
+            name: 'winAttack_overlay',
+            value: '0.57',
+            property: 'opacity',
+            delay: 0
+        },
+        {
+            name: 'spins_rays',
+            value: '1',
+            property: 'opacity',
+            delay: 100
+        },
+        {
+            name: 'spins_bottle',
+            value: '1',
+            property: 'opacity',
+            delay: 100
+        },
+        {
+            name: 'spins_txt',
+            value: 'scale(1)',
+            property: 'transform',
+            delay: 200
+        },
+        {
+            name: 'spins_bottle',
+            value: 'rotate(-110deg)',
+            property: 'transform',
+            delay: 700
+        },
+        ]
+        obj.forEach(function (element) {
+            setTimeout(function () {
+                document.getElementById(element.name).style[element.property] = element.value;
+            }, element.delay)
+        })
+    },
+    attackWindowHide: function () {
+        var obj = [
+            {
+                name: 'cannon',
+                value: '-100%',
+                property: 'bottom',
+                delay: 100
+            },
+            {
+                name: 'island',
+                value: '160%',
+                property: 'left',
+                delay: 100
+            }
+        ]
+        obj.forEach(function (element) {
+            setTimeout(function () {
+                document.getElementById(element.name).style[element.property] = element.value;
+            }, element.delay)
+        })
+    },
     setGlos: function (className) {
         setTimeout(function () {
             document.getElementById('glos').removeAttribute("class");
@@ -190,9 +252,10 @@ var playedApp = {
                     }, 2000)
                     break;
                 case 1:
-                    self.winAttackMessage()
+                    self.winAttackMessageShow()
                     break;
                 case 2:
+                    self.spinMessageWinShow()
                     break;
             }
             self.opt.stepNumber++;
@@ -316,17 +379,154 @@ var playedApp = {
             }
         }, 800)
     },
+    pushBall: function (element) {
+        var self = this;
+        var animeObj = {}
+        switch (element) {
+            case 'pet':
+                animeObj = {
+                    left: {
+                        start: "50%",
+                        middle: "54%",
+                        finish: "80%"
+                    },
+                    bottom: {
+                        start: "10%",
+                        middle: "100%",
+                        finish: "30%"
+                    }
+                }
+                break;
+            case 'ship':
+                animeObj = {
+                    left: {
+                        start: "50%",
+                        middle: "54%",
+                        finish: "65%"
+                    },
+                    bottom: {
+                        start: "10%",
+                        middle: "100%",
+                        finish: "65%"
+                    }
+                }
+                break;
+            case 'house':
+                animeObj = {
+                    left: {
+                        start: "50%",
+                        middle: "45%",
+                        finish: "34%"
+                    },
+                    bottom: {
+                        start: "10%",
+                        middle: "100%",
+                        finish: "38%"
+                    }
+                }
+                break;
+            case 'nature':
+                animeObj = {
+                    left: {
+                        start: "50%",
+                        middle: "51%",
+                        finish: "53%"
+                    },
+                    bottom: {
+                        start: "10%",
+                        middle: "100%",
+                        finish: "50%"
+                    }
+                }
+                break;
+
+        }
+        anime({
+            targets: '#cannon__ball',
+            opacity: [
+                {
+                    value: 0,
+                    duration: 0,
+                },
+                {
+                    value: 1,
+                    duration: 50,
+                }
+            ],
+            left: [
+                {
+                    value: animeObj.left.start,
+                    duration: 0,
+                    easing: "easeInOutQuad"
+                }, {
+                    value: animeObj.left.middle,
+                    duration: 300,
+                    delay: 0,
+                    easing: "easeInOutQuad"
+                }, {
+                    value: animeObj.left.finish,
+                    duration: 300,
+                    delay: 0,
+                    easing: "easeInOutQuad"
+                }],
+            bottom: [{
+                value: animeObj.bottom.start,
+                duration: 0,
+                easing: "easeInOutQuad"
+
+            }, {
+                value: animeObj.bottom.middle,
+                duration: 300,
+                delay: 0,
+                easing: "easeInOutQuad"
+            }, {
+                value: animeObj.bottom.finish,
+                duration: 300,
+                delay: 0,
+                easing: "easeInOutQuad"
+            }],
+            scale: [
+                {
+                    value: self.opt.screenScale.scale,
+                    duration: 0
+                }, {
+                    value: 0.55 * self.opt.screenScale.scale,
+                    duration: 300,
+                    easing: "easeInOutQuad"
+                }, {
+                    value: 0.35 * self.opt.screenScale.scale,
+                    duration: 300,
+                    easing: "easeInOutQuad"
+                }, {
+                    value: 0,
+                    duration: 0,
+                    delay: 0,
+                    easing: "easeInOutQuad"
+                }
+            ]
+        })
+    },
     attack: function (e) {
         var self = this;
         clearInterval(this.opt.attackBtnsInterval)
         var attk_btn = document.getElementsByClassName('attack_btn');
-
-        for(var i = 0; i < attk_btn.length; i++){
-            if(attk_btn[i] != e ){
+        for (var i = 0; i < attk_btn.length; i++) {
+            if (attk_btn[i] != e) {
                 attk_btn[i].style.opacity = 0
+            } else if (attk_btn[i] == e) {
+                // console.log('hi')
+                var elem = attk_btn[i]
+                attk_btn[i].querySelector('.btn_border').classList.add('active')
+                setTimeout(function () {
+                    elem.style.transform = 'scale(0)'
+                }, 700)
             }
         }
         var obj = e.getAttribute('data-attack');
+
+        setTimeout(function () {
+            self.pushBall(obj)
+        }, 600);
 
         anime({
             targets: '#cannon',
@@ -334,27 +534,27 @@ var playedApp = {
                 value: self.opt.screenScale.scale,
                 duration: 0
             }, {
-                value: 1.04 * self.opt.screenScale.scale,
-                duration: 500,
+                value: 1.03 * self.opt.screenScale.scale,
+                duration: 400,
                 easing: "easeInOutQuad"
             }, {
                 value: self.opt.screenScale.scale,
-                duration: 500,
+                duration: 400,
                 easing: "easeInOutQuad"
             }],
             bottom: [
                 {
-                    value : '-4%',
-                    duration: 500,
+                    value: '-4%',
+                    duration: 400,
                     easing: "easeInOutQuad"
-                },{
-                    value : '-8%',
-                    duration: 500,
+                }, {
+                    value: '-6%',
+                    duration: 400,
                     easing: "easeInOutQuad"
                 }
-                ,{
-                    value : '-4%',
-                    duration: 500,
+                , {
+                    value: '-4%',
+                    duration: 100,
                     easing: "easeInOutQuad"
                 }
             ]
@@ -362,7 +562,7 @@ var playedApp = {
         })
 
         var canvas = document.getElementById('explr_canvas')
-        setTimeout(function(){
+        setTimeout(function () {
             switch (obj) {
                 case 'house':
                     canvas.style.left = '39%';
@@ -380,18 +580,32 @@ var playedApp = {
                     document.getElementById('ship').classList.add('ship_damaged')
                     break;
                 case 'pet':
-                    canvas.style.right = '2%';
+                    canvas.style.right = '-1%';
                     canvas.style.top = '68%';
                     document.getElementById('pet').classList.add('pet_damaged')
                     break;
             }
-        }, 350)
+        }, 1400)
 
         var self = this;
-        this.setScore(11000000)
+
         setTimeout(function () {
             self.drawExpl()
-        }, )
+        }, 1100)
+        setTimeout(function () {
+            self.setScore(11000000)
+        }, 1600)
+        setTimeout(function () {
+            self.attackWindowHide()
+        }, 2500)
+        setTimeout(function () {
+            self.wheelShow()
+        }, 3000)
+        setTimeout(function () {
+            self.chPirateShow()
+        }, 3300)
+
+
     },
     drawExpl: function () {
         var canvas = document.getElementById('explr_canvas')
