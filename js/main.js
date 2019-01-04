@@ -20,6 +20,7 @@ var playedApp = {
                 self.attack(this)
             })
         }
+        window.addEventListener("resize", this.resizeListner.bind(this))
     },
     spinWheel: function () {
         clearInterval(this.opt.blickIntervalId);
@@ -266,18 +267,22 @@ var playedApp = {
     setScore: function (score) {
         var self = this;
         // score bar scaling and blinking
-        console.log(self.opt.screenScale.scale)
+        console.log(self.opt.screenScale)
+        var scale = self.opt.screenScale.scale
+        if(self.opt.screenScale.tablet){
+            scale = self.opt.screenScale.tabletScale
+        }
         anime({
             targets: '#score__bar',
             scale: [{
-                value: self.opt.screenScale.scale,
+                value: scale,
                 duration: 0
             }, {
-                value: 1.04 * self.opt.screenScale.scale,
+                value: 1.04 * scale,
                 duration: 600,
                 easing: "easeInOutQuad"
             }, {
-                value: self.opt.screenScale.scale,
+                value: scale,
                 duration: 600,
                 easing: "easeInOutQuad"
             }],
@@ -362,6 +367,11 @@ var playedApp = {
         this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
         this.chPirateShow()
     },
+    resizeListner : function(){
+        this.opt.screenScale = this.getPageScale(640, window.innerWidth, window.innerHeight);
+        // console.log(this.opt.screenScale)
+        this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
+    },
     animateAttackBtns: function () {
         var counter = 0;
         var btns = document.querySelectorAll('.btn_border')
@@ -391,8 +401,8 @@ var playedApp = {
                         finish: "80%"
                     },
                     bottom: {
-                        start: "10%",
-                        middle: "100%",
+                        start: "-11%",
+                        middle: "120%",
                         finish: "30%"
                     }
                 }
@@ -405,8 +415,8 @@ var playedApp = {
                         finish: "65%"
                     },
                     bottom: {
-                        start: "10%",
-                        middle: "100%",
+                        start: "-11%",
+                        middle: "120%",
                         finish: "65%"
                     }
                 }
@@ -419,8 +429,8 @@ var playedApp = {
                         finish: "34%"
                     },
                     bottom: {
-                        start: "10%",
-                        middle: "100%",
+                        start: "-11%",
+                        middle: "120%",
                         finish: "38%"
                     }
                 }
@@ -433,13 +443,17 @@ var playedApp = {
                         finish: "53%"
                     },
                     bottom: {
-                        start: "10%",
-                        middle: "100%",
+                        start: "-11%",
+                        middle: "120%",
                         finish: "50%"
                     }
                 }
                 break;
 
+        }
+        var scale = self.opt.screenScale.scale
+        if(self.opt.screenScale.tablet){
+            scale = self.opt.screenScale.tabletScale
         }
         anime({
             targets: '#cannon__ball',
@@ -460,12 +474,12 @@ var playedApp = {
                     easing: "easeInOutQuad"
                 }, {
                     value: animeObj.left.middle,
-                    duration: 300,
+                    duration: 500,
                     delay: 0,
                     easing: "easeInOutQuad"
                 }, {
                     value: animeObj.left.finish,
-                    duration: 300,
+                    duration: 500,
                     delay: 0,
                     easing: "easeInOutQuad"
                 }],
@@ -476,26 +490,26 @@ var playedApp = {
 
             }, {
                 value: animeObj.bottom.middle,
-                duration: 300,
+                duration: 500,
                 delay: 0,
                 easing: "easeInOutQuad"
             }, {
                 value: animeObj.bottom.finish,
-                duration: 300,
+                duration: 500,
                 delay: 0,
                 easing: "easeInOutQuad"
             }],
             scale: [
                 {
-                    value: self.opt.screenScale.scale,
+                    value: scale,
                     duration: 0
                 }, {
-                    value: 0.55 * self.opt.screenScale.scale,
-                    duration: 300,
+                    value: 0.55 * scale,
+                    duration: 500,
                     easing: "easeInOutQuad"
                 }, {
-                    value: 0.35 * self.opt.screenScale.scale,
-                    duration: 300,
+                    value: 0.35 * scale,
+                    duration: 500,
                     easing: "easeInOutQuad"
                 }, {
                     value: 0,
@@ -527,18 +541,21 @@ var playedApp = {
         setTimeout(function () {
             self.pushBall(obj)
         }, 600);
-
+        var scale = self.opt.screenScale.scale
+        if(self.opt.screenScale.tablet){
+            scale = self.opt.screenScale.tabletScale
+        }
         anime({
             targets: '#cannon',
             scale: [{
-                value: self.opt.screenScale.scale,
+                value: scale,
                 duration: 0
             }, {
-                value: 1.03 * self.opt.screenScale.scale,
+                value: 1.03 * scale,
                 duration: 400,
                 easing: "easeInOutQuad"
             }, {
-                value: self.opt.screenScale.scale,
+                value: scale,
                 duration: 400,
                 easing: "easeInOutQuad"
             }],
@@ -585,25 +602,25 @@ var playedApp = {
                     document.getElementById('pet').classList.add('pet_damaged')
                     break;
             }
-        }, 1400)
+        }, 1600)
 
         var self = this;
 
         setTimeout(function () {
             self.drawExpl()
-        }, 1100)
+        }, 1300)
         setTimeout(function () {
             self.setScore(11000000)
-        }, 1600)
+        }, 1800)
         setTimeout(function () {
             self.attackWindowHide()
-        }, 2500)
+        }, 2700)
         setTimeout(function () {
             self.wheelShow()
-        }, 3000)
+        }, 3200)
         setTimeout(function () {
             self.chPirateShow()
-        }, 3300)
+        }, 3500)
 
 
     },
@@ -640,7 +657,8 @@ var playedApp = {
         var i = width / containerSize;
         return {
             scale: i,
-            tabletScale: .68 <= width / height ? .68 * height / containerSize : i
+            tabletScale: .68 <= width / height ? .68 * height / containerSize : i,
+            tablet : false
         }
     },
     getType: function (e) {
@@ -650,7 +668,7 @@ var playedApp = {
         var self = this;
         0 < e.length && e.map(function (e) {
             var t = i.tabletScale;
-            if ("object" !== (void 0 === e ? "undefined" : self.getType(e))) document.getElementById(e).style.transform = "scale(" + i.tabletScale + ")";
+            if ("object" !== (void 0 === e ? "undefined" : self.getType(e))) i.tablet = true, document.getElementById(e).style.transform = "scale(" + i.tabletScale + ")";
             else {
                 var n = e.scale ? t * e.scale : t;
                 if (e.items && 0 < e.items.length) e.items.forEach(function (e) {
