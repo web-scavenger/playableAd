@@ -1,6 +1,7 @@
 var playedApp = {
     opt: {
-        scaleElemArr: ['logo', 'score__bar', 'machine', 'spin__btn', 'ch_pirate__block', 'attack_rays', 'cannon', 'island', 'cannon__ball', 'spins_rays'],
+        scaleElemArr: ['logo', 'score__bar', 'machine', 'spin__btn', 'ch_pirate__block',
+            'attack_rays', 'cannon', 'island', 'cannon__ball', 'spins_rays', 'spins_overlay', 'fp_pirate', 'fp_ship', 'fp_install__btn'],
         charHintPirate: document.getElementById('ch_pirate__block'),
         charHintOverlay: document.getElementById('ch_overlay'),
         barrelBtn: document.getElementById('barrel__btn'),
@@ -35,21 +36,24 @@ var playedApp = {
         this.chPirateHide();
         switch (this.opt.stepNumber) {
             case 0:
-                this.setGlos('spins_10');
+                this.setGlos('10');
                 this.rotateWheel(1152);
                 break;
             case 1:
-                this.setGlos('spins_5');
+                this.setGlos('5');
                 this.rotateWheel(-1);
                 break;
             case 2:
-                this.setGlos('spins_empty');
+                this.setGlos('0');
                 this.rotateWheel(902);
                 break;
         }
     },
     wheelShow: function () {
         document.getElementById('machine').style.left = '50%'
+    },
+    wheelHide: function () {
+        document.getElementById('machine').style.left = '-50%'
     },
     chPirateShow: function () {
         var self = this;
@@ -174,43 +178,88 @@ var playedApp = {
         this.canonFire();
         this.animateAttackBtns();
     },
-    spinMessageWinShow: function () {
-        var obj = [{
-            name: 'winAttack_overlay',
-            value: '0.57',
-            property: 'opacity',
-            delay: 0
-        },
-        {
-            name: 'spins_rays',
-            value: '1',
-            property: 'opacity',
-            delay: 100
-        },
-        {
-            name: 'spins_bottle',
-            value: '1',
-            property: 'opacity',
-            delay: 100
-        },
-        {
-            name: 'spins_txt',
-            value: 'scale(1)',
-            property: 'transform',
-            delay: 200
-        },
-        {
-            name: 'spins_bottle',
-            value: 'rotate(-110deg)',
-            property: 'transform',
-            delay: 700
-        },
-        ]
-        obj.forEach(function (element) {
-            setTimeout(function () {
-                document.getElementById(element.name).style[element.property] = element.value;
-            }, element.delay)
-        })
+    getRandomDirect : function (e, t) {
+        var n = e - .5 + Math.random() * (t - e + 1);
+        return n = Math.round(n)
+    },
+    coinsSalute: function () {
+        var self = this;
+        var coins = document.querySelectorAll('#win_coins div');
+        var scale = this.getActualScale()
+        var coinsCounter = 0
+        self.rotateCoin(coins[coinsCounter])
+        var coinsIntervsl = setInterval(function () {
+            var rotation = self.getRandomDirect(0, 360)
+            anime({
+                targets: coins[coinsCounter],
+                scale: [{
+                    value: 0,
+                    duration: 0
+                }, {
+                    value: scale * 0.8,
+                    duration: 600
+                }],
+                top: [
+                    {
+                        value: '30%',
+                        duration: 0
+                    },
+                    {
+                        value: self.getRandomDirect(-200, 200) + "%",
+                        duration: 600,
+                        easing: "easeOutCubic"
+                    }
+                ],
+                left: [
+                    {
+                        value: '25%',
+                        duration: 0
+                    },
+                    {
+                        value: self.getRandomDirect(-200, 200) + "%",
+                        duration: 600,
+                        easing: "easeOutCubic"
+                    }
+                ],
+                rotate: [{
+                    value: rotation + "deg",
+                    duration: 0
+                }],
+                opacity: [
+                    {
+                        value: 0,
+                        duration: 0
+                    },
+                    {
+                        value: 1,
+                        duration: 50,
+                    },
+                    {
+                        value: 0,
+                        duration: 10,
+                        delay: 590
+                    }
+                ]
+            });
+            coinsCounter++;
+        }, 60)
+        setTimeout(function () {
+            clearInterval(coinsCounter)
+        }, 2000)
+    },
+    rotateCoin: function (elem) {
+        var position = 5; //start position for the image slicer
+        var interval = 50; //100 ms of interval for the setInterval()
+        var tID = setInterval(function () {
+            elem.style.backgroundPosition =
+                '-' + position + 'px 0px';
+            if (position < 1717) { position = position + 204; }
+            else { position = 204; }
+        }
+            , interval)
+        setTimeout(function () {
+            clearInterval(tID)
+        }, 300)
     },
     attackWindowHide: function () {
         var obj = [
@@ -233,10 +282,10 @@ var playedApp = {
             }, element.delay)
         })
     },
-    setGlos: function (className) {
+    setGlos: function (attr) {
         setTimeout(function () {
-            document.getElementById('glos').removeAttribute("class");
-            document.getElementById('glos').classList.add(className)
+            document.getElementById('glos').setAttribute('data-value', attr);
+            // document.getElementById('glos').classList.add(className)
         }, 600)
     },
     rotateWheel: function (rotate) {
@@ -248,6 +297,7 @@ var playedApp = {
             switch (self.opt.stepNumber) {
                 case 0:
                     self.setScore(9500000)
+                    self.coinsSalute()
                     setTimeout(function () {
                         self.chPirateShow()
                     }, 2000)
@@ -268,10 +318,7 @@ var playedApp = {
         var self = this;
         // score bar scaling and blinking
         console.log(self.opt.screenScale)
-        var scale = self.opt.screenScale.scale
-        if(self.opt.screenScale.tablet){
-            scale = self.opt.screenScale.tabletScale
-        }
+        var scale = this.getActualScale()
         anime({
             targets: '#score__bar',
             scale: [{
@@ -360,14 +407,8 @@ var playedApp = {
             ctx.drawImage(sprite, step, 0, 100, 100, 0, 0, 100, 100);
         }
     },
-    startAd: function () {
-        this.initElements();
-        this.opt.screenScale = this.getPageScale(640, window.innerWidth, window.innerHeight);
-        console.log(this.opt.screenScale)
-        this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
-        this.chPirateShow()
-    },
-    resizeListner : function(){
+
+    resizeListner: function () {
         this.opt.screenScale = this.getPageScale(640, window.innerWidth, window.innerHeight);
         // console.log(this.opt.screenScale)
         this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
@@ -451,10 +492,7 @@ var playedApp = {
                 break;
 
         }
-        var scale = self.opt.screenScale.scale
-        if(self.opt.screenScale.tablet){
-            scale = self.opt.screenScale.tabletScale
-        }
+        var scale = this.getActualScale()
         anime({
             targets: '#cannon__ball',
             opacity: [
@@ -528,7 +566,6 @@ var playedApp = {
             if (attk_btn[i] != e) {
                 attk_btn[i].style.opacity = 0
             } else if (attk_btn[i] == e) {
-                // console.log('hi')
                 var elem = attk_btn[i]
                 attk_btn[i].querySelector('.btn_border').classList.add('active')
                 setTimeout(function () {
@@ -541,10 +578,7 @@ var playedApp = {
         setTimeout(function () {
             self.pushBall(obj)
         }, 600);
-        var scale = self.opt.screenScale.scale
-        if(self.opt.screenScale.tablet){
-            scale = self.opt.screenScale.tabletScale
-        }
+        var scale = this.getActualScale()
         anime({
             targets: '#cannon',
             scale: [{
@@ -653,12 +687,258 @@ var playedApp = {
             }
         }
     },
+    spinMessageWinShow: function () {
+
+        var obj = [{
+            name: 'winAttack_overlay',
+            value: '0.57',
+            property: 'opacity',
+            delay: 0
+        },
+        {
+            name: 'spins_rays',
+            value: '1',
+            property: 'opacity',
+            delay: 100
+        },
+        {
+            name: 'spins_bottle',
+            value: '1',
+            property: 'opacity',
+            delay: 100
+        },
+        {
+            name: 'spins_txt',
+            value: 'scale(1)',
+            property: 'transform',
+            delay: 200
+        },
+        {
+            name: 'spins_rays',
+            value: '0',
+            property: 'opacity',
+            delay: 1000
+        },
+        {
+            name: 'spins_txt',
+            value: 'scale(0)',
+            property: 'transform',
+            delay: 1000
+        },
+        {
+            name: 'winAttack_overlay',
+            value: '0',
+            property: 'opacity',
+            delay: 1000
+        }
+        ]
+        obj.forEach(function (element) {
+            setTimeout(function () {
+                document.getElementById(element.name).style[element.property] = element.value;
+            }, element.delay)
+        })
+        this.spinBottle();
+    },
+    spinBottle: function () {
+        var self = this;
+        var scale = this.getActualScale()
+        anime({
+            targets: '#spins_bottle',
+            rotate: '-140deg',
+            delay: 1100,
+            duration: 300,
+            easing: 'easeOutExpo',
+            opacity: [{
+                value: 1,
+                duration: 0
+            }, {
+                value: 0,
+                duration: 400,
+                delay: 3800
+            }]
+            // scale : scale
+        })
+        setTimeout(function () {
+            self.spinDrops()
+        }, 1750)
+        // this.spinDrops()
+    },
+    spinDrops: function () {
+        var self = this;
+        var drops = document.getElementsByClassName('spin_drop')
+        var counter = 0;
+        var testInterval = setInterval(function () {
+            anime({
+                targets: drops[counter],
+                top: [{
+                    value: "13%",
+                    duration: 0
+                }, {
+                    value: "-46%",
+                    duration: 600,
+                    easing: 'easeOutExpo',
+                }],
+                left: [{
+                    value: "50%",
+                    duration: 0
+                }, {
+                    value: "17%",
+                    duration: 600,
+                    easing: 'easeOutExpo'
+                }],
+                scale: [
+                    {
+                        value: 0,
+                        duration: 0
+                    },
+                    {
+                        value: 1,
+                        duration: 10,
+                    }
+                ],
+                opacity: [{
+                    value: 1,
+                    duration: 0
+                }, {
+                    value: 0,
+                    duration: 10,
+                    delay: 390,
+                    easing: 'easeOutExpo'
+                }]
+
+
+            })
+            counter++
+        }, 200)
+
+
+        self.setGlos('50');
+        setTimeout(function () {
+            self.wheelHide()
+            self.finalSceen();
+            self.hideLogo();
+            self.hideScore();
+        }, 4200)
+
+        setTimeout(function () {
+            clearInterval(testInterval)
+        }, 2000)
+    },
+    hideLogo: function () {
+        document.getElementById('logo').style.opacity = 0
+        document.getElementById('logo').style.display = 'none';
+    },
+    hideScore: function () {
+        document.getElementById('score__bar').style.opacity = 0;
+        document.getElementById('score__bar').style.display = 'none';
+    },
+    finalSceen: function () {
+        var scale = this.getActualScale();
+
+        anime({
+            targets: '#fp_logo',
+            scale: [
+                {
+                    value: 0,
+                    duration: 0
+                },
+                {
+                    value: scale,
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                }
+            ]
+        })
+
+        //pirate 
+        anime({
+            targets: '#fp_pirate',
+            left: [{
+                value: '-160%',
+                duration: 0
+            }, {
+                value: '59%',
+                duration: 300,
+                easing: 'easeInOutQuad'
+            }]
+        })
+
+        //ship
+        anime({
+            targets: '#fp_ship',
+            left: [{
+                value: '-129%',
+                duration: 0
+            }, {
+                value: '29%',
+                duration: 400,
+                easing: 'easeInOutQuad'
+            }]
+        })
+        //install btn
+        anime({
+            targets: '#fp_install__btn',
+            top: [{
+                value: '155%',
+                duration: 0
+            }, {
+                value: '55%',
+                duration: 300,
+                delay: 800,
+                easing: 'easeOutExpo'
+            }]
+        })
+
+        anime({
+            targets: '#eye',
+            opacity: [{
+                value: 0,
+                duration: 0
+            }, {
+                value: 1,
+                duration: 100,
+                delay: 1900,
+                easing: 'easeOutExpo'
+            }, {
+                value: 0,
+                duration: 100,
+                delay: 100,
+                easing: 'easeOutExpo'
+            }]
+        })
+
+        //coins
+        anime({
+            targets: '#fp_coins',
+            top: [{
+                value: '145%',
+                duration: 0
+            }, {
+                value: '45%',
+                duration: 300,
+                delay: 600,
+                easing: 'easeOutExpo'
+            },
+
+            ],
+            scale: scale
+        })
+
+    },
+    getActualScale: function () {
+        var self = this;
+        var scale = self.opt.screenScale.scale
+        if (self.opt.screenScale.tablet) {
+            scale = self.opt.screenScale.tabletScale
+        }
+        return scale;
+    },
     getPageScale: function (containerSize, width, height) {
         var i = width / containerSize;
         return {
             scale: i,
             tabletScale: .68 <= width / height ? .68 * height / containerSize : i,
-            tablet : false
+            tablet: false
         }
     },
     getType: function (e) {
@@ -677,5 +957,12 @@ var playedApp = {
                 else e.items.style.transform = "scale(" + n + ")"
             }
         })
+    },
+    startAd: function () {
+        this.initElements();
+        this.opt.screenScale = this.getPageScale(640, window.innerWidth, window.innerHeight);
+        console.log(this.opt.screenScale)
+        this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
+        this.chPirateShow()
     }
 }
