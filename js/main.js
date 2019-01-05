@@ -317,7 +317,6 @@ var playedApp = {
     setScore: function (score) {
         var self = this;
         // score bar scaling and blinking
-        console.log(self.opt.screenScale)
         var scale = this.getActualScale()
         anime({
             targets: '#score__bar',
@@ -403,14 +402,12 @@ var playedApp = {
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             step = (step === 900 ? 0 : step + 100);
-            // console.log(step);
             ctx.drawImage(sprite, step, 0, 100, 100, 0, 0, 100, 100);
         }
     },
 
     resizeListner: function () {
         this.opt.screenScale = this.getPageScale(640, window.innerWidth, window.innerHeight);
-        // console.log(this.opt.screenScale)
         this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
     },
     animateAttackBtns: function () {
@@ -961,7 +958,6 @@ var playedApp = {
     startAd: function () {
         this.initElements();
         this.opt.screenScale = this.getPageScale(640, window.innerWidth, window.innerHeight);
-        console.log(this.opt.screenScale)
         this.setScaleForItems(this.opt.scaleElemArr, this.opt.screenScale);
         this.chPirateShow()
     }
