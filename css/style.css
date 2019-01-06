@@ -191,6 +191,14 @@ a {
     margin-left: -128px;
     background: url('../img/btn_norm.png') no-repeat center;
     background-size: contain;
+    /* cursor: pointer; */
+}
+#spin__btn #barrel_clickable_btn {
+    width: 256px;
+    height: 156px;
+    left: 50%;
+    top: 0px;
+    margin-left: -128px;
     cursor: pointer;
 }
 
@@ -340,6 +348,11 @@ a {
     -ms-transform-origin: center center;
     transform-origin: center center;
 }
+.island__bg{
+    background-image: url('../img/spriteisland.png');
+    background-repeat: no-repeat;
+    display: block;
+}
 
 #island #island_platform {
     width: 742px;
@@ -357,13 +370,11 @@ a {
     left: 49.5%;
     margin-left: -307.5px;
     bottom: 173px;
-    background: url(../img/nature.png) no-repeat center;
-    background-size: contain;
+    background-position: -650px -5px;
 }
 
 .nature_damagde {
-    background: url('../img/natureDamaged.png') no-repeat center !important;
-    background-size: contain;
+    background-position: -650px -336px!important;
     width: 583px !important;
     height: 300px !important;
     left: 51.5% !important;
@@ -389,13 +400,11 @@ a {
     top: 0px;
     left: 63%;
     margin-left: -80px;
-    background: url('../img/attack_ship.png') no-repeat center;
-    background-size: contain;
+    background-position: -5px -5px;
 }
 
 .ship_damaged {
-    background: url('../img/shipDamaged.png') no-repeat center !important;
-    background-size: contain;
+    background-position: -472px -416px !important;
 }
 
 #island #ship_atc__btn {
@@ -417,13 +426,11 @@ a {
     top: 53%;
     margin-top: -199.5px;
     margin-left: -232.5px;
-    background: url(../img/house.png) no-repeat center;
-    background-size: contain;
+    background-position: -175px -5px;
 }
 
 .house_damaged {
-    background: url('../img/house_Damaged.png') no-repeat center !important;
-    background-size: contain;
+    background-position: -5px -414px !important;
     width: 457px !important;
     height: 251px !important;
     left: 39% !important;
@@ -451,13 +458,16 @@ a {
     right: 12%;
     margin-top: -106px;
     margin-left: -95.5px;
-    background: url('../img/pet.png') no-repeat center;
-    background-size: contain;
+    background-position: -1275px -5px;
 }
 
 .pet_damaged {
-    background: url('../img/petDamaged.png') no-repeat center !important;
-    background-size: contain;
+    width: 231px !important;
+    height: 179px !important;
+    margin-top: -115.5px !important;
+    margin-left: -89.5px !important;
+    top: 75% !important;
+    background-position: -1275px -227px !important;
 }
 
 #island #pet_atc__btn {
@@ -613,7 +623,7 @@ a {
     width: 376px;
     height: 416px;
     left: -129%;
-    top: 51%;
+    top: 49%;
     margin-left: -178px;
     margin-top: -208px;
 }
@@ -646,8 +656,9 @@ a {
 #fp_pirate {
     width: 528px;
     height: 697px;
-    top: 17%;
+    top: 64%;
     left: -160%;
+    margin-top: -348.5px;
     margin-left: -264px;
 }
 
@@ -675,8 +686,9 @@ a {
     width: 507px;
     height: 347px;
     left: 50%;
-    top: 155%;
+    top: 178%;
     margin-left: -253.5px;
+    margin-top: -173.5px;
 }
 
 #fp_install__btn #btn {
@@ -766,8 +778,8 @@ a {
     width: 204px;
     height: 204px;
     top: 30%;
-    left: 25%;
-    margin-left: - 102px;
+    left: 50%;
+    margin-left: -102px;
     margin-top: -102px;
     transform: scale(0);
 }
