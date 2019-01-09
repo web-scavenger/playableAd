@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="theme-color" content="#222222" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="img/fav/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/fav/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/fav/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/fav/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/fav/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/fav/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/fav/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/fav/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/fav/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/fav/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/fav/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/fav/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+              // registration failed :(
+              console.log('ServiceWorker registration failed: ', err);
+            });
+          });
+        }
+        </script>
+
     <title>playable Ad</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <section class="ad__section">
         <div id="logo"></div>
@@ -63,12 +99,12 @@
         </div>
         <div id="winAttack_overlay" class="opacity-anime"></div>
         <div id="attack_rays" class="opacity-anime">
-            <div id="attack_txt" ></div>
+            <div id="attack_txt"></div>
             <div id="attack_gun" class="opacity-anime"></div>
         </div>
 
         <div id="spins_rays" class="opacity-anime">
-            <div id="spins_txt" ></div>
+            <div id="spins_txt"></div>
         </div>
         <div id="spins_overlay">
             <div id="spins_bottle" class="opacity-anime">
@@ -90,10 +126,18 @@
             <div id="nature" class="island__bg"></div>
             <div id="house" class="island__bg"></div>
             <div id="pet" class="island__bg"></div>
-            <div id="house_atc__btn" class='attack_btn' data-attack='house'><div class="btn_border"></div></div>
-            <div id="nature_atc__btn" class='attack_btn' data-attack='nature'><div class="btn_border"></div></div>
-            <div id="ship_atc__btn" class='attack_btn' data-attack='ship'><div class="btn_border"></div></div>
-            <div id="pet_atc__btn" class='attack_btn' data-attack='pet'><div class="btn_border"></div></div>
+            <div id="house_atc__btn" class='attack_btn' data-attack='house'>
+                <div class="btn_border"></div>
+            </div>
+            <div id="nature_atc__btn" class='attack_btn' data-attack='nature'>
+                <div class="btn_border"></div>
+            </div>
+            <div id="ship_atc__btn" class='attack_btn' data-attack='ship'>
+                <div class="btn_border"></div>
+            </div>
+            <div id="pet_atc__btn" class='attack_btn' data-attack='pet'>
+                <div class="btn_border"></div>
+            </div>
             <canvas id="explr_canvas" width="468" height="468"></canvas>
             <div id="cannon__ball"></div>
         </div>
@@ -123,14 +167,16 @@
                 <div id="eye"></div>
             </div>
         </div>
-        
+
     </section>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script src="./js/anime.js"></script>
     <script src="js/main.js"></script>
     <script>
-        window.onload = function(){
+        window.onload = function () {
             playedApp.startAd()
         }
     </script>
+
 </body>
+
 </html>
